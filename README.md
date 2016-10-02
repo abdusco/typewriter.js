@@ -1,6 +1,7 @@
 # typewriter.js
 
 + Pure vanilla JS, no external dependencies
++ Less than 2KB minified, less than 1KB minified & gzipped
 + Utilizes ES6 Promises, and requestAnimationFrame for greater performance (you may need to provide polyfill)
 
 ## Demo
