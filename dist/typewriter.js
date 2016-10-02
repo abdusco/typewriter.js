@@ -135,4 +135,4 @@
     } else {
         global.typewriter = typewriter;
     }
-})(undefined);
+})(this);
