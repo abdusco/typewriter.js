@@ -14,7 +14,7 @@
 //     selector string: ".my-class" or "[data-typewriter]" etc.
 //     single or multiple element 
 
-typewrite(<"selector"|Node|NodeList> [, options]);
+typewriter(<"selector"|Node|NodeList> [, options]);
 ```
 
 ### HTML
@@ -28,7 +28,7 @@ typewrite(<"selector"|Node|NodeList> [, options]);
 ```
 ### JS
 ``` js
-typewrite('.js-typewriter');
+typewriter('.js-typewriter');
 ```
 
 ## Default options
