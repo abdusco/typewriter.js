@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Typewriter.js</title>
+    <meta name="viewport" content="width=device-width">
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: monospace;
+            min-height: 100vh;
+            display: table;
+            background-color: hsl(0, 0%, 10%);
+            color: hsl(0, 0%, 98%);
+        }
+
+        a {
+            text-transform: uppercase;
+            color: dodgerblue;
+            text-decoration: none;
+            border-bottom: 0.1em solid;
+        }
+
+        .container {
+
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            font-size: 2rem;
+            padding: 0 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a target="_blank" href="https://github.com/abdusco/typewriter.js">GitHub</a>
+    <p>Lorem ipsum <span class="js-typewriter"
+                         data-typewriter="consectetur|adipisicing|elit|Accusamus|aliquid">watch me</span> dolor sit amet
+    </p>
+</div>
+
+<script src="../src/typewriter.js"></script>
+<script>
+    typewriter('[data-typewriter]', {
+        delimiter: '|',
+        waitFirst: 500,
+        waitBefore: 100,
+        waitAfter: 1000,
+        delay: 80
+    });
+</script>
+</body>
+</html>
