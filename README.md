@@ -5,7 +5,7 @@
 
 ## Demo
 
-[Here](https://rawgithub.com/abdusco/typewriter.js/blob/master/demo/index.html)
+[Here](https://rawgit.com/abdusco/typewriter.js/master/demo/index.html)
 
 ## Usage
 ``` js
@@ -30,7 +30,7 @@ typewrite(<"selector"|Node|NodeList> [, options]);
 typewrite('.js-typewriter');
 ```
 
-## Options
+## Default options
 ``` js
 {
     data: 'typewriter', // data attribute to source the words
