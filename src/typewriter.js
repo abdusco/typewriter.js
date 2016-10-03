@@ -63,7 +63,6 @@
                     // get next word
                     typee.current = (typee.current + 1) % typee.words.length;
                     var next = typee.words[typee.current];
-                    console.log(typee.current, next)
                     if (next == undefined) {
                         debugger;
                     }
