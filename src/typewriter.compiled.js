@@ -15,16 +15,17 @@
 
         function typeLetters(el, word, delay) {
             return new Promise(function (resolve, reject) {
-                var i = 0;
+                var curr = 0;
                 var max = word.length - 1;
 
                 waitComplete(delay, function () {
                     var rafid = requestAnimationFrame(function () {
-                        if (i <= max) {
-                            el.innerHTML += word[i++];
+                        cancelAnimationFrame(rafid);
+
+                        if (curr <= max) {
+                            el.innerHTML += word[curr++];
                         } else {
-                            cancelAnimationFrame(rafid);
-                            resolve();
+                            resolve(el);
                         }
                     })
                 });
@@ -35,18 +36,17 @@
             return new Promise(function (resolve, reject) {
                 var content = el.innerHTML;
                 // start from the last letter
-                var nextLength = content.length - 1;
+                var last = content.length - 1;
 
-                var id = setInterval(function () {
+                waitComplete(delay, function () {
                     var rafId = requestAnimationFrame(function () {
-                        el.innerHTML = content.substring(0, nextLength--);
-                        cancelAnimationFrame(rafId);
+                        if (last >= 0) {
+                            el.innerHTML = content.substring(0, last--);
+                            cancelAnimationFrame(rafId);
+                        }
+                        else { resolve(el); }
                     });
-                    if (nextLength < 0) {
-                        clearInterval(id);
-                        resolve(el);
-                    }
-                }, delay);
+                });
             })
         }
 
@@ -63,7 +63,6 @@
                     // get next word
                     typee.current = (typee.current + 1) % typee.words.length;
                     var next = typee.words[typee.current];
-                    console.log(typee.current, next)
                     if (next == undefined) {
                         debugger;
                     }
