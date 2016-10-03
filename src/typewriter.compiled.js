@@ -1,19 +1,13 @@
 /**
  * Created by Abdus on 2.10.2016.
  */
-"use strict";
-
-/**
- * Created by Abdus on 2.10.2016.
- */
 (function (global) {
     "use strict";
-
     function typewriter(typeables, options) {
 
         function extend(from, to) {
             Object.keys(from).forEach(function (k) {
-                if (!k in to) return;
+                if (!k in to) { return; }
                 to[k] = from[k];
             });
             return to;
@@ -24,17 +18,17 @@
                 var i = 0;
                 var max = word.length - 1;
 
-                var id = setInterval(function () {
+                waitComplete(delay, function () {
                     var rafid = requestAnimationFrame(function () {
-                        el.innerHTML += word[i++];
-                        cancelAnimationFrame(rafid);
-                    });
-                    if (i >= max) {
-                        clearInterval(id);
-                        resolve(el);
-                    }
-                }, delay);
-            });
+                        if (i <= max) {
+                            el.innerHTML += word[i++];
+                        } else {
+                            cancelAnimationFrame(rafid);
+                            resolve();
+                        }
+                    })
+                });
+            })
         }
 
         function deleteLetters(el, delay) {
@@ -53,38 +47,51 @@
                         resolve(el);
                     }
                 }, delay);
-            });
+            })
         }
+
+        function waitComplete(delay, cb) {
+            setTimeout(function () {
+                cb();
+                waitComplete(delay, cb);
+            }, delay);
+        }
+
 
         function advanceWord(typee) {
             var id = setTimeout(function () {
                     // get next word
                     typee.current = (typee.current + 1) % typee.words.length;
                     var next = typee.words[typee.current];
-
+                    console.log(typee.current, next)
+                    if (next == undefined) {
+                        debugger;
+                    }
                     // animate
-                    deleteLetters(typee, options.delay).then(function (el) {
-                        return typeLetters(typee, next, options.delay);
-                    }).then(function () {
-                        clearTimeout(id);
-                        // wait before typing the next word
-                        setTimeout(advanceWord(typee), options.waitBefore);
-                    });
+                    deleteLetters(typee, options.delay)
+                        .then(function (el) { return typeLetters(typee, next, options.delay); })
+                        .then(function () {
+                            clearTimeout(id);
+                            // wait before typing the next word
+                            setTimeout(advanceWord(typee), options.waitBefore);
+                        });
+
                 },
                 // wait before deleting the word
                 options.waitAfter);
         }
 
-        function typeWords(typee, wait) {
+        function typeWords(typee) {
             typee.words = typee.dataset[options.data].split(options.delimiter);
-            if (!typee.words.length) return;
+            if (!typee.words.length) { return; }
 
             typee.current = -1;
             // wait before initializing sequence
             setTimeout(function () {
                 advanceWord(typee);
-            }, options.waitFirst);
+            }, options.waitFirst)
         }
+
 
         function init() {
             // ensure we have element array
@@ -95,7 +102,8 @@
                 // check if single element is passed
                 else if (typeables.toString() === "[object HTMLBodyElement]") {
                     typeables = [typeables];
-                } else {
+                }
+                else {
                     throw new Error('Please provide a valid selector or element');
                 }
             }
@@ -110,9 +118,7 @@
             };
             options = extend(options || {}, DEFAULTS);
 
-            [].slice.call(typeables).forEach(function (typee) {
-                return typeWords(typee, options.waitAfter);
-            });
+            [].slice.call(typeables).forEach(function (typee) { return typeWords(typee, options.waitAfter); });
         }
 
         init();
@@ -120,9 +126,7 @@
 
     // AMD support
     if (typeof define === 'function' && define.amd) {
-        define(function () {
-            return typewriter;
-        });
+        define(function () { return typewriter; });
     }
     // CommonJS and Node.js module support.
     else if (typeof exports !== 'undefined') {
@@ -136,3 +140,4 @@
         global.typewriter = typewriter;
     }
 })(this);
+//# sourceMappingURL=typewriter.compiled.js.map

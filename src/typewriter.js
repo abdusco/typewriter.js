@@ -18,16 +18,16 @@
                 var i = 0;
                 var max = word.length - 1;
 
-                var id = setInterval(() => {
+                waitComplete(delay, function () {
                     var rafid = requestAnimationFrame(() => {
-                        el.innerHTML += word[i++];
-                        cancelAnimationFrame(rafid);
+                        if (i <= max) {
+                            el.innerHTML += word[i++];
+                        } else {
+                            cancelAnimationFrame(rafid);
+                            resolve();
+                        }
                     })
-                    if (i >= max) {
-                        clearInterval(id);
-                        resolve(el);
-                    }
-                }, delay);
+                });
             })
         }
 
@@ -50,12 +50,23 @@
             })
         }
 
+        function waitComplete(delay, cb) {
+            setTimeout(() => {
+                cb();
+                waitComplete(delay, cb);
+            }, delay);
+        }
+
+
         function advanceWord(typee) {
             var id = setTimeout(() => {
                     // get next word
                     typee.current = (typee.current + 1) % typee.words.length;
                     var next = typee.words[typee.current];
-
+                    console.log(typee.current, next)
+                    if (next == undefined) {
+                        debugger;
+                    }
                     // animate
                     deleteLetters(typee, options.delay)
                         .then((el) => typeLetters(typee, next, options.delay))
@@ -70,7 +81,7 @@
                 options.waitAfter);
         }
 
-        function typeWords(typee, wait) {
+        function typeWords(typee) {
             typee.words = typee.dataset[options.data].split(options.delimiter);
             if (!typee.words.length) return;
 
